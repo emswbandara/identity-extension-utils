@@ -30,7 +30,9 @@ import org.wso2.carbon.identity.application.authentication.framework.config.mode
 import org.wso2.carbon.identity.application.authentication.framework.context.AuthenticationContext;
 import org.wso2.carbon.identity.application.authentication.framework.exception.AuthenticationFailedException;
 import org.wso2.carbon.identity.application.authentication.framework.model.AuthenticatedUser;
+import org.wso2.carbon.identity.application.authentication.handler.identifier.IdentifierHandler;
 import org.wso2.carbon.identity.application.common.model.ClaimMapping;
+import org.wso2.carbon.identity.core.handler.IdentityHandler;
 import org.wso2.carbon.identity.core.util.IdentityDatabaseUtil;
 import org.wso2.carbon.identity.core.util.IdentityTenantUtil;
 import org.wso2.carbon.identity.core.util.IdentityUtil;
@@ -403,6 +405,14 @@ public class FederatedAuthenticatorUtil {
                 LocalApplicationAuthenticator) {
             username = getLoggedInLocalUser(context);
             authenticatedUser = getUsername(context);
+        } else if (stepConfig != null &&
+                stepConfig.getAuthenticatedAutenticator().getApplicationAuthenticator() instanceof IdentifierHandler) {
+            if (log.isDebugEnabled()) {
+                log.debug("IdentifierHandler is not an authenticator but a user identifier. Hence we cannot proceed " +
+                        "with a second factor authenticator based on the authenticated user set to the context from " +
+                        "IdentifierHandler.");
+            }
+            return;
         } else {
             //Get username from federated helper
             String federatedUsername = getLoggedInFederatedUser(context);

@@ -61,6 +61,10 @@
             <artifactId>org.wso2.carbon.identity.mgt</artifactId>
             <version>${carbon.identity.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity.application.auth.basic</groupId>
+            <artifactId>org.wso2.carbon.identity.application.authentication.handler.identifier</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
